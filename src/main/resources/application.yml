@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: ServiceSecurity
+  data:
+    rest:
+      default-page-size: 40
+      max-page-size: 1000
+      default-media-type: application/json
+  datasource:
+    driver-class-name:
+    url: jdbc:mysql://localhost:3306/cinemadb
+    username: root
+    password: Edisonmesa2105
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect
+server:
+  error:
+    include-stacktrace: never
+jms:
+  jwt:
+    security:
+      enabled: true
+    timezone: "America/Bogota"
+    issuer: "www.MrCinema.net"
+    token:
+      auth:
+        path: "/security/oauth/client_credential/accesstoken"
+      secret: "Suscribete si vez este mensaje"
+      expiresIn: 3600
+    excluded:
+      path: "/security/multi,/security/exclusion"
+
+
