@@ -10,6 +10,4 @@ public class ApiAuthorized extends  Exception{
     public ApiAuthorized(String message){
         super(message);
     }
-
-
 }

@@ -20,12 +20,11 @@ public class AuthService {
     public JwtResponse login(String clientId,String clientSecret){
         JwtResponse jwt=JwtResponse.builder()
                 .tokenType("bearer")
-                .accessToken(jwtIO.generateToken(clientId,clientSecret))
+                .accessToken(JwtIO.generateToken(jwtIO, clientId,clientSecret))
                 .issuedAt(dateUtils.getDateMillis()+"")
                 .clientId(clientId)
                 .expiresIn(EXPIRES_IN)
                 .build();
-
         return jwt;
     }
 }

@@ -25,15 +25,15 @@ public class JwtIO {
     @Value("${jms.jwt.issuer:none}")
     private String ISSUER;
 
-    public String generateToken(Object src,String clientSecret){
+    public static String generateToken(JwtIO jwtIO, Object src, String clientSecret){
 
         String subject= GsonUtils.serializae(src);
-        Signer signer= HMACSigner.newSHA256Signer(SECRET);
-        TimeZone tz=TimeZone.getTimeZone(TIMEZONE);
-        ZonedDateTime zdt=ZonedDateTime.now(tz.toZoneId()).plusSeconds(EXPIRES_IN);
+        Signer signer= HMACSigner.newSHA256Signer(jwtIO.SECRET);
+        TimeZone tz=TimeZone.getTimeZone(jwtIO.TIMEZONE);
+        ZonedDateTime zdt=ZonedDateTime.now(tz.toZoneId()).plusSeconds(jwtIO.EXPIRES_IN);
 
         JWT jwt=new JWT()
-                .setIssuer(ISSUER)
+                .setIssuer(jwtIO.ISSUER)
                 .setIssuedAt(ZonedDateTime.now(tz.toZoneId()))
                 .setSubject(subject)
                 .setExpiration(zdt);
@@ -41,11 +41,13 @@ public class JwtIO {
     }
 
     public boolean validateToken(String encodedJWT){
-        return false;
+        JWT jwt=jwt(encodedJWT);
+        return jwt.isExpired();
     }
 
     public String getPayload(String encodedJWT){
-        return null;
+        JWT jwt=jwt(encodedJWT);
+        return jwt.subject;
     }
 
     private JWT jwt(String encodedJWT){
