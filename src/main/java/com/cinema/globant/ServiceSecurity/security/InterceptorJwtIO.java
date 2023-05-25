@@ -30,8 +30,8 @@ public class InterceptorJwtIO implements HandlerInterceptor {
         }
         if (!validate && request.getHeader("Authorization")!=null && !request.getHeader("Authorization").isEmpty()){
 
-            String token=request.getHeader("Authorization").replace("Bearer","");
-
+            String token=request.getHeader("Authorization").replace("Bearer ","");
+            System.out.println(token);
             validate=!jwtIO.validateToken(token);
         }
         if (!validate){
